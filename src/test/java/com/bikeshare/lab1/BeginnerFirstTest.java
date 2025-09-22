@@ -31,8 +31,7 @@ class BeginnerFirstTest {
     @Test
     @DisplayName("My very first test - always passes")
     void myVeryFirstTest() {
-        // TODO: Write a simple test that always passes
-        // HINT: Use assertEquals(1, 1) to check if 1 equals 1
+        assertEquals(1, 1); 
         
         // Congratulations! You just saw your first passing test! 🎉
     }
@@ -154,6 +153,10 @@ class BeginnerFirstTest {
         // 1. Get a CARGO bike type
         // 2. Check that its display name is "Cargo Bike"
         // 3. Check that its rate is 1.20 (Swedish pricing)
+           BikeType cargoBike = BikeType.CARGO;
+   assertEquals("Cargo Bike", cargoBike.getDisplayName());
+   assertEquals(1.30, cargoBike.getPricePerMinute());
+   //assertTrue(true);
         
         // TODO: Complete this challenge!
         
