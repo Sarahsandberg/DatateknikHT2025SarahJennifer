@@ -12,16 +12,18 @@ import com.bikeshare.model.User;
 import com.bikeshare.model.User.UserStatus;
 
 public class UserBlackBoxTest {
-
+    // trial to test name, not working as there is no logic handeling name lenght
     @Test
     void userNameHasValidValue() {
         User user = new User("800101-8129", "kalle@mail.com", "Karl-Erik", "Larsson");
 
-        String name = user.getFirstName();
-        Integer nameLenght = name.length();
+        String newName = "Lo";
+        user.setFirstName(newName);
+        Integer nameLenght = user.getFirstName().length();
 
-        // assertTrue(nameLenght >= 2);
         assertTrue(user != null);
+        assertTrue(nameLenght >= 2);
+        assertTrue(nameLenght <= 50);
 
     }
 
