@@ -1,5 +1,6 @@
 package com.bikeshare.lab2;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -58,6 +59,31 @@ public class UserBlackBoxTest {
         assertEquals("First name cannot be null or empty", exception.getMessage());
 
     }
+
+    // AI constructed tests
+    @Test
+    void validPhoneNumber_SwedishFormat() {
+        User user = new User("800101-8129", "test@mail.com", "Karl", "Larsson");
+
+        assertDoesNotThrow(() -> user.setPhoneNumber("070-111 22 33"));
+    }
+
+    @Test
+    void validPhoneNumber_InternationalFormat() {
+        User user = new User("800101-8129", "test@mail.com", "Karl", "Larsson");
+
+        assertDoesNotThrow(() -> user.setPhoneNumber("+46 70-111 22 33"));
+    }
+
+    @Test
+    void invalidPhoneNumber_InvalidFormat() {
+        User user = new User("800101-8129", "test@mail.com", "Karl", "Larsson");
+
+        Exception exception = assertThrows(IllegalArgumentException.class,
+                () -> user.setPhoneNumber("46 70-111 22 33"));
+        assertEquals("Invalid phone number format", exception.getMessage());
+    }
+    // end of ChatGPT tests
 
     @Test
     void fundBoundaryUnderMin() {
