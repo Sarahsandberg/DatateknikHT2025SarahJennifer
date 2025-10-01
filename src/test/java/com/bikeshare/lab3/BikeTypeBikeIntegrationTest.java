@@ -18,9 +18,7 @@ public class BikeTypeBikeIntegrationTest {
         Bike bike = new Bike("1", Bike.BikeType.STANDARD);
 
         bike.startRide();
-
         assertEquals(Bike.BikeStatus.IN_USE, bike.getStatus());
-
     }
 
     @Test
@@ -144,14 +142,12 @@ public class BikeTypeBikeIntegrationTest {
     @Test
     void chargeBatteryOnElectricBikeTo80() {
         Bike bike = new Bike("1", Bike.BikeType.ELECTRIC);
-
         // startar en ride för att få ner batteri nivån. Slutar ride efter 47km eftersom
         // detta använder 94% av batteriet.
         bike.startRide();
         bike.endRide(47);
 
         bike.chargeBattery(74);
-
         assertEquals(80, bike.getBatteryLevel());
     }
 
@@ -191,6 +187,41 @@ public class BikeTypeBikeIntegrationTest {
             bike.chargeBattery(80);
         });
         assertEquals("Cannot charge non-electric bike", exception.getMessage());
+    }
+
+    // testar konstruktorn
+    @Test
+    void createBikeWithInvalidIdNumber() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            Bike bike = new Bike("", Bike.BikeType.ELECTRIC);
+        });
+        assertEquals("Bike ID cannot be null or empty", exception.getMessage());
+    }
+
+    @Test
+    void createBikeWithInvalidBikeType() {
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            Bike bike = new Bike("3", null);
+        });
+        assertEquals("Bike type cannot be null", exception.getMessage());
+    }
+
+    @Test
+    void endRideWith1050kmNeedsMantinance() {
+        Bike bike = new Bike("1", Bike.BikeType.STANDARD);
+        bike.startRide();
+
+        bike.endRide(1050);
+        assertTrue(bike.needsMaintenance());
+    }
+
+    @Test
+    void endElectricRideWith4batteryNeedsMantinance() {
+        Bike bike = new Bike("1", Bike.BikeType.ELECTRIC);
+        bike.startRide();
+
+        bike.endRide(48);
+        assertTrue(bike.needsMaintenance());
     }
 
 }
